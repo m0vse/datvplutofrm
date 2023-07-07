@@ -1,0 +1,7 @@
+config BR2_PACKAGE_FFMPEG_44
+	bool "ffmpeg"
+	help
+	  FFmpeg is a complete, cross-platform solution to record,
+	  convert and stream audio and video.
+
+	  http://www.ffmpeg.org
