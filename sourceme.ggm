@@ -1,7 +1,7 @@
-source /tools/Xilinx/Vivado/2021.2/settings64.sh
+source /tools/Xilinx/Vivado/2019.1/settings64.sh
 export CROSS_COMPILE=arm-linux-gnueabihf-
-export PATH=$PATH:/tools/Xilinx/SDK/2021.2/gnu/aarch32/lin/gcc-arm-linux-gnueabi/bin
-export VIVADO_SETTINGS=/tools/Xilinx/Vivado/2021.2/settings64.sh
+export PATH=$PATH:/tools/Xilinx/SDK/2019.1/gnu/aarch32/lin/gcc-arm-linux-gnueabi/bin
+export VIVADO_SETTINGS=/tools/Xilinx/Vivado/2019.1/settings64.sh
 export ABSOLUTE_PATH=$(cd `dirname "${BASH_SOURCE[0]}"` && pwd)
 unset LD_LIBRARY_PATH
 
