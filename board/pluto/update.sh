@@ -97,13 +97,13 @@ process_ini() {
 		echo "pwd_wlan $pwd_wlan" >> /opt/fw_set.tmp
 		echo "xo_correction $xo_correction" >> /opt/fw_set.tmp
 		echo "udc_handle_suspend $udc_handle_suspend" >> /opt/fw_set.tmp
+		echo "usb_ethernet_mode $usb_ethernet_mode" >> /opt/fw_set.tmp
 		echo "ipaddr_eth $ipaddr_eth" >> /opt/fw_set.tmp
 		echo "netmask_eth $netmask_eth" >> /opt/fw_set.tmp
 		fw_setenv -s /opt/fw_set.tmp
 		rm /opt/fw_set.tmp
 		flash_indication_off
 		touch /mnt/msd/SUCCESS_ENV_UPDATE
-		
 	else
 		touch /mnt/msd/FAILED_INVALID_UBOOT_ENV
 	fi
@@ -221,7 +221,7 @@ do
 	fi
 
 	if [[ -s ${FIRMWARE} ]]
-	then 
+	then
 		handle_frimware_frm "${FIRMWARE}" "${FRM_MAGIC}"
 	fi
 
@@ -231,11 +231,6 @@ do
 	fi
 
 	md5sum -c /opt/config.md5 || process_ini $conf
-
-	if [ -f "/mnt/jffs2/etc/config.txt" ]; then
-		dos2unix /mnt/msd/config.txt
-		cp /mnt/msd/config.txt /mnt/jffs2/etc/config.txt
-	fi
 
 	if [ "$TARGET" == "m2k" ]; then
 		if [[ -s /mnt/msd/${CALIBFILENAME} ]]; then
@@ -253,6 +248,11 @@ do
 				cp /mnt/msd/${CALIBFILENAME_FACTORY} /mnt/jffs2/${CALIBFILENAME_FACTORY}
 					do_reset=1
 			fi
+		fi
+
+		if [[ -s /mnt/msd/${CALIBFILENAME_TEMP_LUT} ]]; then
+			cp /mnt/msd/${CALIBFILENAME_TEMP_LUT} /mnt/jffs2/${CALIBFILENAME_TEMP_LUT}
+			do_reset=1
 		fi
 	fi
 

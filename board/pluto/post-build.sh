@@ -6,9 +6,6 @@ set -e
 
 INSTALL=install
 
-date +"%d%m" >  ${TARGET_DIR}/www/fwversion.txt
-touch ${TARGET_DIR}/www/releasenote.txt
-git --git-dir=${BR2_EXTERNAL}/.git log --pretty=oneline --abbrev-commit > ${TARGET_DIR}/www/releasenote.txt
 # Add a console on tty1
 grep -qE '^ttyGS0::' ${TARGET_DIR}/etc/inittab || \
 sed -i '/GENERIC_SERIAL/a\
@@ -49,14 +46,16 @@ genimage                           \
 rm -f ${TARGET_DIR}/opt/boot.vfat
 rm -f ${TARGET_DIR}/etc/init.d/S99iiod
 rm -Rf ${TARGET_DIR}/etc/dropbear
+rm -Rf ${TARGET_DIR}/etc/mosquitto
 
-mkdir -p ${TARGET_DIR}/www/img
-mkdir -p ${TARGET_DIR}/etc/wpa_supplicant/
+mkdir -p ${TARGET_DIR}/www
 mkdir -p ${TARGET_DIR}/mnt/jffs2
 mkdir -p ${TARGET_DIR}/mnt/msd
 mkdir -p ${TARGET_DIR}/etc/dropbear
+mkdir -p ${TARGET_DIR}/etc/mosquitto
 
 ${INSTALL} -D -m 0755 ${BOARD_DIR}/update.sh ${TARGET_DIR}/sbin/
+${INSTALL} -D -m 0755 ${BOARD_DIR}/update_from_github.sh ${TARGET_DIR}/sbin/
 ${INSTALL} -D -m 0755 ${BOARD_DIR}/update_frm.sh ${TARGET_DIR}/sbin/
 ${INSTALL} -D -m 0755 ${BOARD_DIR}/udc_handle_suspend.sh ${TARGET_DIR}/sbin/
 ${INSTALL} -D -m 0755 ${BOARD_DIR}/S10mdev ${TARGET_DIR}/etc/init.d/
@@ -67,6 +66,7 @@ ${INSTALL} -D -m 0755 ${BOARD_DIR}/S23udc ${TARGET_DIR}/etc/init.d/
 ${INSTALL} -D -m 0755 ${BOARD_DIR}/S40network ${TARGET_DIR}/etc/init.d/
 ${INSTALL} -D -m 0755 ${BOARD_DIR}/S41network ${TARGET_DIR}/etc/init.d/
 ${INSTALL} -D -m 0755 ${BOARD_DIR}/S45msd ${TARGET_DIR}/etc/init.d/
+${INSTALL} -D -m 0755 ${BOARD_DIR}/S98autostart ${TARGET_DIR}/etc/init.d/
 ${INSTALL} -D -m 0644 ${BOARD_DIR}/fw_env.config ${TARGET_DIR}/etc/
 ${INSTALL} -D -m 0644 ${BOARD_DIR}/VERSIONS ${TARGET_DIR}/opt/
 ${INSTALL} -D -m 0755 ${BOARD_DIR}/device_reboot ${TARGET_DIR}/usr/sbin/
@@ -77,18 +77,13 @@ ${INSTALL} -D -m 0644 ${BOARD_DIR}/motd ${TARGET_DIR}/etc/
 ${INSTALL} -D -m 0755 ${BOARD_DIR}/test_ensm_pinctrl.sh ${TARGET_DIR}/usr/sbin/
 ${INSTALL} -D -m 0644 ${BOARD_DIR}/device_config ${TARGET_DIR}/etc/
 ${INSTALL} -D -m 0644 ${BOARD_DIR}/mdev.conf ${TARGET_DIR}/etc/
+${INSTALL} -D -m 0644 ${BOARD_DIR}/httpd.conf ${TARGET_DIR}/etc/
+${INSTALL} -D -m 0644 ${BOARD_DIR}/php.ini ${TARGET_DIR}/etc/
 ${INSTALL} -D -m 0755 ${BOARD_DIR}/automounter.sh ${TARGET_DIR}/lib/mdev/automounter.sh
 ${INSTALL} -D -m 0755 ${BOARD_DIR}/ifupdown.sh ${TARGET_DIR}/lib/mdev/ifupdown.sh
 ${INSTALL} -D -m 0644 ${BOARD_DIR}/input-event-daemon.conf ${TARGET_DIR}/etc/
+${INSTALL} -D -m 0644 ${BOARD_DIR}/mosquitto.conf ${TARGET_DIR}/etc/mosquitto/
 
-#${INSTALL} -D -m 0644 ${BOARD_DIR}/msd/img/* ${TARGET_DIR}/www/img/
-${INSTALL} -D -m 0644 ${BOARD_DIR}/msd/*.html ${TARGET_DIR}/www/
-
-${INSTALL} -D -m 0755 ${BOARD_DIR}/wpa_supplicant/* ${TARGET_DIR}/etc/wpa_supplicant/
-
-ln -sf ../../wpa_supplicant/ifupdown.sh ${TARGET_DIR}/etc/network/if-up.d/wpasupplicant
-ln -sf ../../wpa_supplicant/ifupdown.sh ${TARGET_DIR}/etc/network/if-down.d/wpasupplicant
-ln -sf ../../wpa_supplicant/ifupdown.sh ${TARGET_DIR}/etc/network/if-pre-up.d/wpasupplicant
-ln -sf ../../wpa_supplicant/ifupdown.sh ${TARGET_DIR}/etc/network/if-post-down.d/wpasupplicant
+cp -R ${BOARD_DIR}/www/* ${TARGET_DIR}/www/
 
 ln -sf device_reboot ${TARGET_DIR}/usr/sbin/pluto_reboot

@@ -1,5 +1,5 @@
-device-fw v0.32-dirty
-hdl dev_prj_2018_r1-933-g847f
-buildroot v0.20-13876-g1daa6-dirty
-linux xcomm_zynq-2013-04-19-471994-g6edc6c-dirty
-u-boot-xlnx v0.20-PlutoSDR-14-g469a0f
+device-fw v0.37-1-g1077-dirty
+hdl dev_prj_2018_r1-1763-ge5660-dirty
+buildroot 2021.02.7-adi-6643-g0d5db4
+linux adi-xilinx-2020.1-98725-g3eae70-dirty
+u-boot-xlnx v0.20-PlutoSDR-25-g90401c-dirty
