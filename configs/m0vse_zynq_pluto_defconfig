@@ -78,3 +78,6 @@ BR2_PACKAGE_FFMPEG_DECODERS="aac aac_latm mpeg2video mp2 yuv4 rawvideo mjpeg h26
 BR2_PACKAGE_FFMPEG_MUXERS="adts flv mpegts rawvideo image2"
 BR2_PACKAGE_FFMPEG_DEMUXERS="aac h264 mpegts mpegvideo pcm_s16le rawvideo rtp hevc flv dvbsub"
 BR2_PACKAGE_FFMPEG_PARSERS="aac h264 mjpeg mpegaudio mpegvideo hevc"
+BR2_PACKAGE_LIBWEBSOCKETS=y
+BR2_PACKAGE_FFTW_SINGLE=y
+BR2_PACKAGE_FFTW_FAST=y

@@ -18,7 +18,7 @@ pwd_wlan =
 ipaddr_wlan =
 
 [USB_ETHERNET]
-ipaddr_eth = 192.168.1.8
+ipaddr_eth = 192.168.99.99
 netmask_eth = 255.255.255.0
 
 [SYSTEM]
